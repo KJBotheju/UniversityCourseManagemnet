@@ -1,5 +1,6 @@
 package com.erp.universitycoursemanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -8,6 +9,7 @@ import lombok.*;
 @Table(name = "students",
         uniqueConstraints = @UniqueConstraint(name = "uk_student_index", columnNames = "indexNumber"))
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Student {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

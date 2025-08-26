@@ -23,9 +23,19 @@ public class EnrollmentController {
         return service.grade(id, grade);
     }
 
-    @GetMapping("/by-student/{studentId}") public List<Enrollment> byStudent(@PathVariable Long studentId) { return service.byStudent(studentId); }
-    @GetMapping("/by-course/{courseId}") public List<Enrollment> byCourse(@PathVariable Long courseId) { return service.byCourse(courseId); }
-    @DeleteMapping("/{id}") public void drop(@PathVariable Long id) { service.drop(id); }
+    @GetMapping("/by-student/{studentId}") public List<Enrollment> byStudent(@PathVariable Long studentId) {
+        return service.byStudent(studentId);
+    }
 
-    @GetMapping("/gpa/{studentId}") public double gpa(@PathVariable Long studentId) { return service.gpaForStudent(studentId); }
+    @GetMapping("/by-course/{courseId}") public List<Enrollment> byCourse(@PathVariable Long courseId) {
+        return service.byCourse(courseId);
+    }
+
+    @DeleteMapping("/{id}") public void drop(@PathVariable Long id) {
+        service.drop(id);
+    }
+
+    @GetMapping("/gpa/{studentId}") public double gpa(@PathVariable Long studentId) {
+        return service.gpaForStudent(studentId);
+    }
 }

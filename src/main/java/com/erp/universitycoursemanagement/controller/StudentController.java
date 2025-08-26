@@ -13,9 +13,23 @@ public class StudentController {
     private final StudentService service;
     public StudentController(StudentService service) { this.service = service; }
 
-    @GetMapping public Page<Student> list(Pageable pageable) { return service.list(pageable); }
-    @PostMapping public Student create(@Valid @RequestBody Student s) { return service.create(s); }
-    @GetMapping("/{id}") public Student get(@PathVariable Long id) { return service.get(id); }
-    @PutMapping("/{id}") public Student update(@PathVariable Long id, @Valid @RequestBody Student s) { return service.update(id, s); }
-    @DeleteMapping("/{id}") public void delete(@PathVariable Long id) { service.delete(id); }
+    @GetMapping public Page<Student> list(Pageable pageable) {
+        return service.list(pageable);
+    }
+
+    @PostMapping public Student create(@Valid @RequestBody Student student) {
+        return service.create(student);
+    }
+
+    @GetMapping("/{id}") public Student get(@PathVariable Long id) {
+        return service.get(id);
+    }
+
+    @PutMapping("/{id}") public Student update(@PathVariable Long id, @Valid @RequestBody Student student) {
+        return service.update(id, student);
+    }
+
+    @DeleteMapping("/{id}") public void delete(@PathVariable Long id) {
+        service.delete(id);
+    }
 }

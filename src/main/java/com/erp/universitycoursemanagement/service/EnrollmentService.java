@@ -34,7 +34,6 @@ public class EnrollmentService {
         enrollments.findByStudentAndCourse(s, c)
                 .ifPresent(e -> { throw new IllegalStateException("Already enrolled"); });
 
-        // No Lombok builder here – always compiles
         Enrollment e = new Enrollment();
         e.setStudent(s);
         e.setCourse(c);

@@ -21,9 +21,11 @@ public class Course {
     private String title;
 
     @Min(1) @Max(10)
+    @Builder.Default
     private int credits = 3;
 
     @Min(1)
+    @Builder.Default
     private int capacity = 50;
 
     public Long getId() {

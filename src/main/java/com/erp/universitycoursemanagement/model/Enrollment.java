@@ -19,6 +19,7 @@ public class Enrollment {
     @ManyToOne(optional = false, fetch = FetchType.LAZY) @JoinColumn(name = "course_id")
     private Course course;
 
+    @Builder.Default
     private LocalDateTime enrolledAt = LocalDateTime.now();
 
     @Enumerated(EnumType.STRING) // stores as "A+", "B", "C-" etc.

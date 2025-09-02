@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  # MySQL Database Service
+  mysql-db:
+    image: mysql:8.0
+    container_name: university-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: universityCourseManagement
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: apppassword
+    ports:
+      - "3333:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d
+    networks:
+      - university-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+      interval: 10s
+      start_period: 40s
+    restart: unless-stopped
+
+  # Spring Boot Application Service
+  university-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: university-course-app
+    environment:
+      # Database Configuration
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/universityCourseManagement?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: appuser
+      SPRING_DATASOURCE_PASSWORD: apppassword
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+      
+      # JPA Configuration
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: false
+      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.MySQL8Dialect
+      
+      # JWT Configuration
+      APP_JWT_SECRET: UniversityCourseManagementSecretKeyForJWTSigningMustBe256BitsOrMore
+      APP_JWT_EXPIRATION_MS: 86400000
+      
+      # Server Configuration
+      SERVER_PORT: 8080
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+    networks:
+      - university-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/test/public"]
+      timeout: 10s
+      retries: 5
+      interval: 30s
+      start_period: 60s
+    restart: unless-stopped
+    volumes:
+      - app_logs:/app/logs
+
+# Named volumes for data persistence
+volumes:
+  mysql_data:
+    driver: local
+  app_logs:
+    driver: local
+
+# Custom network for service communication
+networks:
+  university-network:
+    driver: bridge

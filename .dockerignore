@@ -1,0 +1,55 @@
+# Ignore target directory
+target/
+!target/*.jar
+
+# Ignore IDE files
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore logs
+*.log
+logs/
+
+# Ignore temporary files
+*.tmp
+*.temp
+.tmp/
+
+# Ignore Docker files themselves
+Dockerfile
+docker-compose*.yml
+.dockerignore
+
+# Ignore Git
+.git/
+.gitignore
+
+# Ignore Maven wrapper jar (we copy it explicitly)
+!.mvn/wrapper/maven-wrapper.jar
+
+# Ignore backup files
+*.bak
+*.swp
+*.swo
+
+# Ignore documentation (not needed in container)
+*.md
+docs/
+
+# Ignore test reports
+**/surefire-reports/
+**/target/surefire-reports/
+
+# Ignore environment files
+.env
+.env.local
+.env.development
+.env.test
+.env.production
